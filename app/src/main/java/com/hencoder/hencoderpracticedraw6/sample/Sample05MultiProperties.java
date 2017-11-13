@@ -43,7 +43,7 @@ public class Sample05MultiProperties extends ConstraintLayout {
                 if (!animated) {
                     imageView.animate()
                             .translationX(Utils.dpToPixel(200))
-                            .rotation(360)
+                            .rotationX(360)
                             .scaleX(1)
                             .scaleY(1)
                             .alpha(1);

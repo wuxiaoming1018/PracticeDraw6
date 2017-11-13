@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Outline;
 import android.graphics.Path;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
@@ -12,8 +13,10 @@ import android.view.ViewOutlineProvider;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.hencoder.hencoderpracticedraw6.R;
+import com.hencoder.hencoderpracticedraw6.Utils;
 
 import static android.os.Build.VERSION.SDK_INT;
 import static com.hencoder.hencoderpracticedraw6.Utils.dpToPixel;
@@ -21,6 +24,9 @@ import static com.hencoder.hencoderpracticedraw6.Utils.dpToPixel;
 public class Practice01Translation extends RelativeLayout {
     Button animateBt;
     ImageView imageView;
+    TextView text;
+    private int count = 0;
+    private int version = SDK_INT > Build.VERSION_CODES.LOLLIPOP ? 6 : 4;
 
     public Practice01Translation(Context context) {
         super(context);
@@ -40,6 +46,8 @@ public class Practice01Translation extends RelativeLayout {
 
         animateBt = (Button) findViewById(R.id.animateBt);
         imageView = (ImageView) findViewById(R.id.imageView);
+        text = (TextView) findViewById(R.id.text);
+        timer.start();
         if (SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             // 给音乐图标加上合适的阴影
             imageView.setOutlineProvider(new MusicOutlineProvider());
@@ -49,6 +57,36 @@ public class Practice01Translation extends RelativeLayout {
             @Override
             public void onClick(final View v) {
                 // TODO 在这里处理点击事件，通过 View.animate().translationX/Y/Z() 来让 View 平移
+                switch (count) {
+                    case 0:
+                        imageView.animate().x(Utils.dpToPixel(100)).y(Utils.dpToPixel(100));
+//                        imageView.animate().translationX(Utils.dpToPixel(100));
+//                        imageView.animate().x(100).y(100).z(100);
+                        break;
+                    case 1:
+                        imageView.animate().translationX(0);
+                        break;
+                    case 2:
+                        imageView.animate().translationY(Utils.dpToPixel(50));
+                        break;
+                    case 3:
+                        imageView.animate().translationY(0);
+                        break;
+                    case 4:
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            imageView.animate().translationZ(Utils.dpToPixel(15));
+                        }
+                        break;
+                    case 5:
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            imageView.animate().translationZ(0);
+                        }
+                        break;
+                }
+                count++;
+                if (count == version) {
+                    count = 0;
+                }
             }
         });
     }
@@ -75,4 +113,16 @@ public class Practice01Translation extends RelativeLayout {
             outline.setConvexPath(path);
         }
     }
+
+    CountDownTimer timer = new CountDownTimer(30000, 1000) {
+        @Override
+        public void onTick(long millisUntilFinished) {
+            text.setText("请等待30秒(" + millisUntilFinished / 1000 + ")...");
+        }
+
+        @Override
+        public void onFinish() {
+            text.setText("finish");
+        }
+    };
 }

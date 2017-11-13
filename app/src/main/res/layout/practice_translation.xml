@@ -21,4 +21,14 @@
         android:text="@string/animate"
         android:textSize="16sp" />
 
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="8dp"
+        android:hint="110"
+        android:textSize="16sp" />
+
 </com.hencoder.hencoderpracticedraw6.practice.Practice01Translation>
